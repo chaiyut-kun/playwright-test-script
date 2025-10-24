@@ -1,0 +1,20 @@
+import { test, expect, request } from "@playwright/test";
+
+test.describe("API Integration Test", () => {
+  const baseURL = "http://localhost:3000";
+
+  test("Login User and get Token", async ({ request }) => {
+    const response = await request.post(`${baseURL}/api/login`, {
+      data: {
+        email: "test627@mail.com",
+        password: "test627",
+      },
+    });
+
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    const token = body.token;
+    expect(body.token).toBeTruthy();
+
+  })
+});
