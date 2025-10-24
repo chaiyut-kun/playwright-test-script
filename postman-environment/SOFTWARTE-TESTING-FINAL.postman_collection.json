@@ -4,7 +4,7 @@
 		"name": "SOFTWARTE-TESTING-FINAL",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "44003227",
-		"_collection_link": "https://ballname.postman.co/workspace/b98ce2e8-8f28-4eae-8c3f-981bc2f01740/collection/44003227-471c7cb7-00e1-4122-8942-1f1b887215cf?action=share&source=collection_link&creator=44003227"
+		"_collection_link": "https://ballname.postman.co/workspace/Ballname's-Workspace~b98ce2e8-8f28-4eae-8c3f-981bc2f01740/collection/44003227-471c7cb7-00e1-4122-8942-1f1b887215cf?action=share&source=collection_link&creator=44003227"
 	},
 	"item": [
 		{
@@ -27,6 +27,135 @@
 			"response": []
 		},
 		{
+			"name": "[POST] /api/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login to access system and get 200 of status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Login to access system Success and get Token\", function () {\r",
+							"    const response = pm.response.json()\r",
+							"    const request = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"    console.log(request)\r",
+							"    \r",
+							"    // expection\r",
+							"    pm.expect(response.message).to.contains(\"Login Successfully!\")\r",
+							"    pm.expect(response.user.email).to.equals(request.email)\r",
+							"    pm.expect(response).to.have.property(\"token\");\r",
+							"    \r",
+							"    // หลังจาก login สำเร็จ\r",
+							"    pm.environment.set(\"token\", response.token);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// === ALL DATA SETS ===\r",
+							"\r",
+							"// for login\r",
+							"const users = [\r",
+							"  { email: \"test.627@mail.com\", password: \"test627\" },\r",
+							"  { email: \"unique1@mail.com\", password: \"test\" },\r",
+							"  { email: \"umami@mail.com\", password: \"umami\" },\r",
+							"];\r",
+							"\r",
+							"// for login fail\r",
+							"const unknows = [\r",
+							"  { username: \"test.628\", email: \"test.628@mail.com\", password: \"test628\" },\r",
+							"  { username: \"meme\", email: \"meme@mail.com\", password: \"meme\" },\r",
+							"  { username: \"joke\", email: \"joke.cum\", password: \"jo\" }\r",
+							"];\r",
+							"\r",
+							"// for register\r",
+							"const newUsers = [\r",
+							"  { username: \"627academy\", email: \"627academy@mail.com\", password: \"La_masia\" },\r",
+							"  { username: \"meyou\", email: \"meyou@mail.com\", password: \"lookkhunnhu\" },\r",
+							"  { username: \"joker\", email: \"joker@akham.com\", password: \"jokervsbatman\" }\r",
+							"];\r",
+							"\r",
+							"// for register fail\r",
+							"const newFailUsers = [...newUsers]; // เพราะข้อมูลเหมือนกัน\r",
+							"\r",
+							"// id user สำหรับสร้างเพื่อเอาไว้รอ update\r",
+							"const idUser = [\r",
+							"  { id: 107 },\r",
+							"  { id: 108 },\r",
+							"  { id: 109 },\r",
+							"  { id: 110 }\r",
+							"];\r",
+							"\r",
+							"// user สำหรับสร้างเพื่อเอาไว้รอ update\r",
+							"const userForUpdate1 = [\r",
+							"  { username: \"updatedUser1\", email: \"updateUser1@mail.com\", password: \"updateUser1\" },\r",
+							"  { username: \"updatedUser2\", email: \"updateUser2@mail.com\", password: \"updateUser2\" },\r",
+							"  { username: \"updatedUser3\", email: \"updateUser3@mail.com\", password: \"updateUser3\" },\r",
+							"  { username: \"updatedUser4\", email: \"updateUser4@mail.com\", password: \"updateUser4\" },\r",
+							"];\r",
+							"\r",
+							"// user สำหรับ update\r",
+							"const userForUpdate2 = [\r",
+							"  { id: 107, username: \"newuser1\", email: \"newuser1@mail.com\", password: \"newuser1\" },\r",
+							"  { id: 108, username: \"newuser2\", email: \"newuser2@mail.com\", password: \"newuser2\" },\r",
+							"  { id: 109, username: \"newuser3\", email: \"newuser3@mail.com\", password: \"newuser3\" },\r",
+							"  { id: 110, username: \"newuser4\", email: \"newuser4@mail.com\", password: \"newuser4\" },\r",
+							"];\r",
+							"\r",
+							"// === SET TO ENVIRONMENT ===\r",
+							"pm.environment.set(\"users\", JSON.stringify(users));\r",
+							"pm.environment.set(\"unknows\", JSON.stringify(unknows));\r",
+							"pm.environment.set(\"newUsers\", JSON.stringify(newUsers));\r",
+							"pm.environment.set(\"newFailUsers\", JSON.stringify(newFailUsers));\r",
+							"pm.environment.set(\"idUser\", JSON.stringify(idUser));\r",
+							"pm.environment.set(\"userForUpdate1\", JSON.stringify(userForUpdate1));\r",
+							"pm.environment.set(\"userForUpdate2\", JSON.stringify(userForUpdate2));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test.627@mail.com\",\r\n    \"password\": \"test627\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "[GET] /api/users",
 			"event": [
 				{
@@ -40,6 +169,17 @@
 							"  pm.expect(res.message).to.eql(\"Get users SuccessFully\");\r",
 							"});\r",
 							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
 							""
 						],
 						"type": "text/javascript",
@@ -73,7 +213,7 @@
 			"response": []
 		},
 		{
-			"name": "[POST] /api/login",
+			"name": "[POST] /api/login (fail)",
 			"event": [
 				{
 					"listen": "test",
@@ -83,7 +223,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Login to access system Success and get Token\", function () {\r",
+							"pm.test(\"Login to access system Success\", function () {\r",
 							"    const response = pm.response.json()\r",
 							"    const request = JSON.parse(pm.request.body.raw);\r",
 							"\r",
@@ -92,12 +232,7 @@
 							"    // expection\r",
 							"    pm.expect(response.message).to.contains(\"Login Successfully!\")\r",
 							"    pm.expect(response.user.email).to.equals(request.email)\r",
-							"    pm.expect(response).to.have.property(\"token\");\r",
-							"    \r",
-							"    // หลังจาก login สำเร็จ\r",
-							"    pm.environment.set(\"token\", jsonData.token);\r",
-							"})\r",
-							""
+							"})"
 						],
 						"type": "text/javascript",
 						"packages": {},
@@ -216,18 +351,12 @@
 							"\r",
 							"// ตรวจว่า response มี key ที่คาดหวัง\r",
 							"pm.test(\"✅ Response has user data\", function () {\r",
+							"  pm.expect(response.message).to.contain(\"Register Successfully!\")\r",
 							"  pm.expect(response).to.have.property(\"data\");\r",
 							"  pm.expect(response.data).to.have.property(\"email\");\r",
 							"  pm.expect(response.data).to.have.property(\"name\");\r",
 							"});\r",
-							"\r",
-							"// ตรวจว่าข้อมูลตรงกับที่ส่งไป\r",
-							"const requestData = JSON.parse(pm.request.body.raw);\r",
-							"\r",
-							"pm.test(\"🔁 Email and Name match the request\", function () {\r",
-							"  pm.expect(response.user.email).to.eql(requestData.email);\r",
-							"  pm.expect(response.user.name).to.eql(requestData.name);\r",
-							"});"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {},
@@ -257,6 +386,111 @@
 					"path": [
 						"api",
 						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[POST] /api/register (fail)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"📦 Status code is 409 (User already exists)\", function () {\r",
+							"  pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"// ตรวจว่า response มี key ที่คาดหวัง\r",
+							"pm.test(\"✅ Response has error response\", function () {\r",
+							"  pm.expect(response.message).to.contain(\"Email already exists!\")\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"unique@mail.com\",\r\n    \"name\": \"Helloworld\",\r\n    \"password\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[PUT] /api/users/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"📦 Status code is 200 (update successfully1)\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"// ตรวจว่า response มี key ที่คาดหวัง\r",
+							"pm.test(\"✅ Response has success response\", function () {\r",
+							"  pm.expect(response.message).to.contain(\"Update user Successfully!\")\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"unique1@mail.com\",\r\n    \"name\": \"Hi\",\r\n    \"password\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/146",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"146"
 					]
 				}
 			},
