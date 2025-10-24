@@ -3,7 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "log:f": "playwright test login-fail.spec.js --headed",
+    "log:s": "playwright test login-success.spec.js --headed",
+    "reg:s": "playwright test register-success.spec.js --headed",
+    "reg:f": "playwright test register-fail.spec.js --headed",
+    "api:log":"playwright test api-login.spec.js --headed",
+    "api:reg":"playwright test api-register.spec.js --headed",
+    "api:usr":"playwright test api-users.spec.js --headed",
+    "test:debug": "playwright test --debug"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
