@@ -3,6 +3,8 @@ import * as dotenv from "dotenv";
 import { users, newUsers, unknows, newFailUsers } from "./users";
 dotenv.config();
 
+const ui = process.env.UI_URL;
+const waitTime = 1_000;
 
 // / @=== Register Fail ===@
 test("Register Fail", async ({ page }) => {

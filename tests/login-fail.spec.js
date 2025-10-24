@@ -40,8 +40,8 @@ test("Login Fail", async ({ page }) => {
     await page.waitForTimeout(waitTime);
     await page.screenshot({ path: `screenshot/fail/login-user${i}.png` });
 
-    await expect(page.locator('button[aria-label="client-response"]')).toHaveText(
-        /No account found for this user/
-    );
-}
+    await expect(
+      page.locator('button[aria-label="client-response"]')
+    ).toHaveText(/No account found for this user/);
+  }
 });
